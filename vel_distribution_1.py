@@ -27,7 +27,7 @@ g.map(sns.kdeplot, "release_speed",
       fill=True, alpha=1, linewidth=1.5)
 g.map(sns.kdeplot, "release_speed", clip_on=False, color="w", lw=2, bw_adjust=.5)
 
-g.refline(y=0, linewidth=2, linestyle="-", color=None, clip_on=False)
+g.refline(y=0, linewidth=1, linestyle="-", color=None, clip_on=False)
 
 # x labels
 def label(x, color, label):
