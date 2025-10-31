@@ -19,7 +19,7 @@ pitch_colors = ['#FF007D', '#F79E70', '#FE6100',
 
 # First we make our facetgrid with Seaborn
 g = sns.FacetGrid(skenes_stats, row="pitch_type",
-                  hue="pitch_type", aspect=15, height=.5, palette=pitch_colors)
+                  hue="pitch_type", aspect=10, height=.5, palette=pitch_colors)
 
 # Then our individual kdeplots
 g.map(sns.kdeplot, "release_speed",
