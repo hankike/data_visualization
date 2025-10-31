@@ -46,7 +46,37 @@ g.set_titles("")
 g.set(yticks=[], ylabel="")
 g.despine(bottom=True, left=True)
 
+pitch_colors = ['#FF007D', '#F79E70', '#FE6100',
+                '#67E18D', '#1BB999', '#98165D', '#3025CE']
+
+g = sns.FacetGrid(skenes_stats, row="pitch_type",
+                  hue="pitch_type", aspect=15, height=.5, palette=pitch_colors)
+
+g.map(sns.kdeplot, "release_speed",
+      bw_adjust=.5, clip_on=False,
+      fill=True, alpha=1, linewidth=1.5)
+g.map(sns.kdeplot, "release_speed", clip_on=False, color="w", lw=2, bw_adjust=.5)
+
+g.refline(y=0, linewidth=1, linestyle="-", color=None, clip_on=False)
+
+
+def label(x, color, label):
+    ax = plt.gca()
+    ax.text(0, .2, label, fontweight="bold", color=color,
+            ha="left", va="center", transform=ax.transAxes)
+
+
+g.map(label, "release_speed")
+
+g.figure.subplots_adjust(hspace=.25)
+
+g.set_titles("")
+g.set(yticks=[], ylabel="")
+g.despine(bottom=True, left=True)
+
+plt.title("Paul Skenes Velocity Distribution", y=8)
+
 # plot!
 plt.show()
 
-# My goal is to expand on this graph and to create more, but this is my first draft and I am proud of it!
+# My goal is to expand on this graph and to create more, but this is my second draft and I am proud of it!
