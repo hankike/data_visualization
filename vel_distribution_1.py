@@ -62,7 +62,7 @@ g.refline(y=0, linewidth=1, linestyle="-", color=None, clip_on=False)
 
 def label(x, color, label):
     ax = plt.gca()
-    ax.text(0, .2, label, fontweight="bold", color=color,
+    ax.text(0, .2, label,
             ha="left", va="center", transform=ax.transAxes)
 
 
@@ -74,7 +74,7 @@ g.set_titles("")
 g.set(yticks=[], ylabel="")
 g.despine(bottom=True, left=True)
 
-plt.title("Paul Skenes Velocity Distribution", y=8)
+plt.title("Paul Skenes Velocity Distribution", y=8.5)
 
 # plot!
 plt.show()
