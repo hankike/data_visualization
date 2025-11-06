@@ -1,9 +1,10 @@
-from pybaseball import team_pitching
-from pybaseball import statcast_pitcher
+import pybaseball
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 import matplotlib
+from pybaseball import team_pitching
+from pybaseball import statcast_pitcher
 matplotlib.use("TkAgg")
 sns.set_style("white")
 
