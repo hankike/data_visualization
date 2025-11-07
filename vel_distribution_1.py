@@ -1,11 +1,6 @@
-import pybaseball
-import matplotlib.pyplot as plt
-import pandas as pd
-import seaborn as sns
-import matplotlib
-from pybaseball import team_pitching
 from pybaseball import statcast_pitcher
-matplotlib.use("TkAgg")
+import seaborn as sns
+import matplotlib.pyplot as plt
 sns.set_style("white")
 
 # First we want to pick a pitcher that we will run our graphs with. As an LSU grad, I picked Paul Skenes and will be using his 2025 stats.
