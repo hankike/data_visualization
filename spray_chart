@@ -3,34 +3,38 @@ from pybaseball import statcast_batter
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# My goal is to create my own spray chart
+# My goal is to create my own spray charts
 
 # To figure this out , I will test on Cubs second baseman Nico Hoerner
 playerid_lookup('hoerner', 'nico')
 hoener_stats = statcast_batter('2025-03-18', '2025-09-28', 663538)
 
-# In order to make a spray chart you only need to make a scatterplot using hc_x and hc_y from statcast sorted by events
-sns.scatterplot(x=hoener_stats['hc_x'],
-                y=hoener_stats['hc_y'],
-                hue=hoerner_stats['events'])
+# Before we do anything we will flip the hc_x and hc_y values to make the plots look more familiar
+hoener_stats.hc_x = hoener_stats.hc_x*-1
+hoener_stats.hc_y = hoener_stats.hc_y*-1
 
-# However this dataset is upside down and if you include a hue can get very hectic
-
-# So first I will create a palette for all events based on out or safe.
+# SPRAY CHART ONE: Events
+# First I will make a palette to separate outs and hits, with errors being listed as outs
 event_pal = ['#F60000', '#F60000', '#3783FF', '#3783FF', '#F60000',
              '#3783FF', '#F60000', '#3783FF', '#3783FF', '#F60000',
              '#F60000', '#3783FF', '#F60000', '#F60000', '#F60000',
              '#F60000']
 
-# Next I will adjust the graph to be oriented how we normally see a spray chart
-hoener_stats.hc_x = hoener_stats.hc_x*-1
-hoener_stats.hc_y = hoener_stats.hc_y*-1
-
-# Finally I make the graph
-sns.scatterplot(x=hoener_stats['hc_x'],
+# Next the events spray chart
+e = sns.scatterplot(x=hoener_stats['hc_x'],
                 y=hoener_stats['hc_y'],
                 hue=hoener_stats['events'],
                 legend=False,
                 palette=event_pal)
+
+plt.show()
+
+# SPRAY CHART TWO: Ball in play types
+# Trying no palette and a legend on this one
+bip = sns.scatterplot(x=hoener_stats['hc_x'],
+                     y=hoener_stats['hc_y'],
+                     hue=hoener_stats['bb_type']
+
+sns.move_legend(ax, "lower right", title=None, frameon=False)
 
 plt.show()
