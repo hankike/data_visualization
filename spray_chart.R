@@ -14,7 +14,7 @@ test = hoerner_2025[, columns]
 
 
 # If we want a hit spread plot
-p = ggplot(test, aes(x = -1*(hc_x), y = -1*(hc_y), color = events)) +
+p = ggplot(test, aes(x = (hc_x), y = -1*(hc_y), color = events)) +
   geom_point(size = 0.75) +
   ggtitle("Nico Hoerner 2025 Spray Chart") +
   xlab("") + ylab("") +
