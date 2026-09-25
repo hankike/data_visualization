@@ -1,32 +1,75 @@
-from pybaseball import playerid_lookup
-from pybaseball import statcast_batter
+import pybaseball as pyb
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# First we will look up a batter. Here I use Nico Hoener as he had the highest batting average on the Cubs last year
-playerid_lookup('hoerner', 'nico')
-hoener_stats = statcast_batter('2025-03-18', '2025-09-28', 663538)
+# We are using Nico Hoerner
+pyb.playerid_lookup('hoerner', 'nico')
 
-# First I will flip the hc_x and hc_y values to make the plots look more familiar
-hoener_stats.hc_x = hoener_stats.hc_x*-1
-hoener_stats.hc_y = hoener_stats.hc_y*-1
+mlb_id = pyb.playerid_lookup('hoerner', 'nico')["key_mlbam"].iloc[0]
+mlb_fname = pyb.playerid_lookup('hoerner', 'nico')[
+    "name_first"].iloc[0].capitalize()
+mlb_lname = pyb.playerid_lookup('hoerner', 'nico')[
+    "name_last"].iloc[0].capitalize()
 
-# Spray chart using events
-# First I will make a palette
-event_pal = ['#F60000', '#F60000', '#3783FF', '#3783FF', '#F60000',
-             '#3783FF', '#F60000', '#3783FF', '#3783FF', '#F60000',
-             '#F60000', '#3783FF', '#F60000', '#F60000', '#F60000',
-             '#F60000']
+batter_stats = pyb.statcast_batter('2025-03-18', '2025-09-28', mlb_id)
 
-# Next the spray chart
-sns.scatterplot(x=hoener_stats['hc_x'],
-                y=hoener_stats['hc_y'],
-                hue=hoener_stats['events'],
-                legend=False,
-                palette=event_pal)
+# Plotting all balls in play based on hit vs out
+event_groups = {
+    "single": "Hit",
+    "double": "Hit",
+    "triple": "Hit",
+    "home_run": "Hit",
 
-# Using hc_x and hc_y we can find which pitches Hoener hit where
-sns.scatterplot(x=hoener_stats['hc_x'],
-                y=hoener_stats['hc_y'],
-                hue=hoener_stats['pitch_type'],
-                legend=False)
+    "field_out": "Out",
+    "strikeout": "Out",
+    "force_out": "Out",
+    "grounded_into_double_play": "Out",
+    "double_play": "Out",
+    "fielders_choice_out": "Out",
+
+    "walk": "Other",
+    "field_error": "Other",
+    "sac_fly": "Other",
+    "hit_by_pitch": "Other",
+    "intent_walk": "Other",
+    "fielders_choice": "Other",
+    "truncated_pa": "Other"
+}
+
+spray = batter_stats[["events", "hc_x", "hc_y"]].copy()
+
+spray['events'] = spray['events'].map(event_groups)
+
+spray['hc_x'] = spray['hc_x'] - 125.42
+
+spray['hc_y'] = 198.27 - spray['hc_y']
+
+spray_pal = ['red', 'blue', 'red']
+
+plt.figure(figsize=(8, 8))
+
+sns.scatterplot(
+    x=spray['hc_x'],
+    y=spray['hc_y'],
+    hue=spray['events'],
+    legend=False,
+    palette=spray_pal
+)
+
+plt.title(f'{mlb_fname} {mlb_lname} Total Spray Chart')
+
+plt.xlabel('')
+plt.ylabel('')
+
+plt.xlim(-110, 110)
+plt.ylim(-15, 170)
+
+plt.xticks([])
+plt.yticks([])
+
+plt.plot([0, 110], [0, 110], color='black')
+plt.plot([-110, 0], [110, 0], color='black')
+
+plt.gca().set_aspect('equal', adjustable='box')
+
+plt.show()
